@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, send_file
 import csv
 import os
+import pandas as pd
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -67,22 +68,22 @@ def manage():
                 dancer.add_score(question_content, score)
                 flash(f'댄서 {dancer_name}에 대한 점수가 추가되었습니다.')
         elif 'export' in request.form:
-            return export_to_csv()
+            return export_to_excel()
     return render_template('manage.html', dancers=dancers, questions=questions)
 
-def export_to_csv():
-    file_path = os.path.join(os.getcwd(), 'dancer_scores.csv')
-    with open(file_path, 'w', newline='', encoding='utf-8') as csvfile:
-        fieldnames = ['메인댄서', '점수', '객관문장']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+def export_to_excel():
+    file_path = os.path.join(os.getcwd(), 'dancer_scores.xlsx')
+    data = []
+    for dancer in dancers:
+        for question, score in dancer.scores.items():
+            data.append({'메인댄서': dancer.name, '점수': score, '객관문장': question})
 
-        writer.writeheader()
-        for dancer in dancers:
-            for question, score in dancer.scores.items():
-                writer.writerow({'메인댄서': dancer.name, '점수': score, '객관문장': question})
+    df = pd.DataFrame(data)
+    df.to_excel(file_path, index=False)
 
-    return send_file(file_path, as_attachment=True, download_name='dancer_scores.csv')
+    return send_file(file_path, as_attachment=True, download_name='dancer_scores.xlsx')
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
+
