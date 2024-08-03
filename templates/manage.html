@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>댄서 및 질문 관리</title>
+</head>
+<body>
+    <h1>댄서 및 질문 관리</h1>
+
+    <!-- Add Dancer -->
+    <form method="post">
+        <h2>댄서 추가</h2>
+        <label for="dancer_name">댄서 이름:</label>
+        <input type="text" id="dancer_name" name="dancer_name" required>
+        <button type="submit" name="add_dancer">댄서 추가</button>
+    </form>
+
+    <!-- Add Question -->
+    <form method="post">
+        <h2>질문 추가</h2>
+        <label for="question_content">질문 내용:</label>
+        <input type="text" id="question_content" name="question_content" required>
+        <button type="submit" name="add_question">질문 추가</button>
+    </form>
+
+    <!-- Add Score -->
+    <form method="post">
+        <h2>점수 입력</h2>
+        <label for="dancer">댄서:</label>
+        <select id="dancer" name="dancer" required>
+            {% for dancer in dancers %}
+                <option value="{{ dancer.name }}">{{ dancer.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="question">질문:</label>
+        <select id="question" name="question" required>
+            {% for question in questions %}
+                <option value="{{ question.content }}">{{ question.content }}</option>
+            {% endfor %}
+        </select>
+        <label for="score">점수 (0-10):</label>
+        <input type="number" id="score" name="score" min="0" max="10" required>
+        <button type="submit" name="add_score">점수 추가</button>
+    </form>
+
+    <!-- Add Subjective Evaluation -->
+    <form method="post">
+        <h2>주관적 평가 입력</h2>
+        <label for="dancer">댄서:</label>
+        <select id="dancer" name="dancer" required>
+            {% for dancer in dancers %}
+                <option value="{{ dancer.name }}">{{ dancer.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="subjective_evaluation">주관적 평가 내용:</label>
+        <input type="text" id="subjective_evaluation" name="subjective_evaluation" required>
+        <button type="submit" name="add_subjective">주관적 평가 추가</button>
+    </form>
+
+    <!-- Export to CSV -->
+    <form method="post">
+        <button type="submit" name="export_csv">출력하기 (CSV)</button>
+    </form>
+</body>
+</html>
