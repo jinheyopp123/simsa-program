@@ -1,51 +1,49 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file, flash
+from flask import Flask, render_template, request, redirect, url_for, send_file, flash, session
 import pickle
 import csv
 import io
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'  # 필요한 경우 비밀키 설정
-
-class Dancer:
-    def __init__(self, name):
-        self.name = name
-        self.scores = []
-        self.subjective_evaluations = []
-
-    def add_score(self, score, question_index):
-        while len(self.scores) <= question_index:
-            self.scores.append(0)
-        self.scores[question_index] += score
-
-    def add_subjective_evaluation(self, evaluation):
-        self.subjective_evaluations.append(evaluation)
-
-    def total_score(self):
-        return sum(self.scores)
-
-class Question:
-    def __init__(self, content):
-        self.content = content
+app.secret_key = 'your_secret_key_here'  # 비밀키 설정
 
 # Global variables to hold data
 dancers = []
 questions = []
 
-# Hardcoded password (could be changed or loaded from a secure location)
-PASSWORD = 'password123'
+# Load or initialize password
+def get_password():
+    return session.get('password')
+
+def set_password(password):
+    session['password'] = password
 
 @app.route('/')
 def index():
-    return render_template('login.html')
+    if get_password() is None:
+        return redirect(url_for('set_password_page'))
+    return redirect(url_for('login'))
 
-@app.route('/login', methods=['POST'])
+@app.route('/set_password', methods=['GET', 'POST'])
+def set_password_page():
+    if request.method == 'POST':
+        password = request.form.get('password')
+        if password:
+            set_password(password)
+            flash('비밀번호가 설정되었습니다. 로그인 페이지로 이동합니다.')
+            return redirect(url_for('login'))
+        else:
+            flash('비밀번호를 입력하세요.')
+    return render_template('set_password.html')
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    password = request.form.get('password')
-    if password == PASSWORD:
-        return redirect(url_for('manage'))
-    else:
-        flash('비밀번호가 틀렸습니다. 다시 시도해주세요.')
-        return redirect(url_for('index'))
+    if request.method == 'POST':
+        password = request.form.get('password')
+        if password == get_password():
+            return redirect(url_for('manage'))
+        else:
+            flash('비밀번호가 틀렸습니다. 다시 시도해주세요.')
+    return render_template('login.html')
 
 @app.route('/manage', methods=['GET', 'POST'])
 def manage():
@@ -102,3 +100,4 @@ def export_to_csv():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
+
