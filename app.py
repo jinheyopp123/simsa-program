@@ -1,12 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, send_file
-import csv
-import os
 import pandas as pd
+import os
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-# 데이터 저장을 위한 클래스 정의
 class Dancer:
     def __init__(self, name):
         self.name = name
@@ -19,7 +17,6 @@ class Question:
     def __init__(self, content):
         self.content = content
 
-# 초기화
 dancers = []
 questions = []
 
@@ -37,7 +34,7 @@ def set_password_page():
     return render_template('set_password.html')
 
 # 로그인 페이지
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         password = request.form['password']
@@ -81,9 +78,10 @@ def export_to_excel():
     df = pd.DataFrame(data)
     df.to_excel(file_path, index=False)
 
-    return send_file(file_path, as_attachment=True, download_name='dancer_scores.xlsx')
+    return send_file(file_path, as_attachment=True)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
+
 
