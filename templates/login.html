@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <h1>로그인</h1>
-    <form method="post" action="{{ url_for('login') }}">
+    <form method="post">
         <label for="password">비밀번호:</label>
         <input type="password" id="password" name="password" required>
         <button type="submit">로그인</button>
