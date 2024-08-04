@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 페이지 없음</title>
+    <title>페이지를 찾을 수 없습니다</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div class="container">
-        <h1>페이지를 찾을 수 없습니다.</h1>
-        <p>요청한 페이지를 찾을 수 없습니다. URL을 확인하거나 홈페이지로 돌아가십시오.</p>
-        <a href="{{ url_for('login') }}">홈으로 돌아가기</a>
+        <h1>404 - 페이지를 찾을 수 없습니다</h1>
+        <p>요청하신 페이지를 찾을 수 없습니다.</p>
+        <a href="{{ url_for('manage') }}">메인 페이지로 돌아가기</a>
         <footer>
             <p>© 2024 Kim Jin Hyuk. All rights reserved.</p>
         </footer>
