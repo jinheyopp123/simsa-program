@@ -15,11 +15,23 @@ button:hover {
     background-color: #0056b3; /* 어두운 파란색 배경으로 변경 */
 }
 
-/* 바닥글 스타일 */
-.footer {
+/* 기본 컨테이너 스타일 */
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
     text-align: center;
-    margin-top: 20px;
-    font-size: 0.8em;
-    color: gray;
 }
+
+/* footer 스타일 */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background-color: #f1f1f1;
+}
+
 
