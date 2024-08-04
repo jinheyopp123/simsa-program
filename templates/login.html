@@ -2,29 +2,22 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>로그인</h1>
-    <form method="POST">
-        <label for="password">비밀번호:</label>
-        <input type="password" id="password" name="password" required>
-        <button type="submit">로그인</button>
-    </form>
-
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-
-    <div class="footer">
-        © 2024 Kim Jin Hyuk. All rights reserved.
+    <div class="container">
+        <h1>로그인</h1>
+        <form method="post">
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">로그인</button>
+        </form>
+        <footer>
+            <p>© 2024 Kim Jin Hyuk. All rights reserved.</p>
+        </footer>
     </div>
 </body>
 </html>
+
