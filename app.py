@@ -3,9 +3,9 @@ import pandas as pd
 import os
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # 비밀번호 보호를 위한 비밀키
-PASSWORD = None
-dancers = []  # 댄서 목록을 저장할 리스트
+app.secret_key = 'supersecretkey'
+PASSWORD = 'admin'
+dancers = []
 
 class Dancer:
     def __init__(self, name):
@@ -13,7 +13,6 @@ class Dancer:
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    global PASSWORD
     if request.method == 'POST':
         password = request.form.get('password')
         if password == PASSWORD:
@@ -24,8 +23,8 @@ def login():
 
 @app.route('/set_password', methods=['GET', 'POST'])
 def set_password():
-    global PASSWORD
     if request.method == 'POST':
+        global PASSWORD
         PASSWORD = request.form.get('password')
         flash('비밀번호가 설정되었습니다.')
         return redirect(url_for('login'))
@@ -54,10 +53,14 @@ def export_to_csv():
     csv_file = 'dancers.csv'
     df.to_csv(csv_file, index=False, encoding='utf-8-sig')
     
-    return send_file(csv_file, as_attachment=True)
+    return send_file(csv_file, as_attachment=True, download_name='dancers.csv')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, port=5000)
 
 
 
