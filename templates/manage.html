@@ -2,32 +2,30 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>관리</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>댄서 관리</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>관리 페이지</h1>
-    
-    <h2>댄서 추가</h2>
-    <form method="POST">
-        <label for="dancer_name">댄서 이름:</label>
-        <input type="text" id="dancer_name" name="dancer_name" required>
-        <button type="submit" name="add_dancer">추가</button>
-    </form>
-
-    <h2>댄서 목록</h2>
-    <ul>
-        {% for dancer in dancers %}
-            <li>{{ dancer.name }}</li>
-        {% endfor %}
-    </ul>
-
-    <form method="POST">
-        <button type="submit" name="export">CSV로 저장</button>
-    </form>
-
-    <div class="footer">
-        © 2024 Kim Jin Hyuk. All rights reserved.
+    <div class="container">
+        <h1>댄서 관리</h1>
+        <form method="post">
+            <label for="dancer_name">댄서 이름:</label>
+            <input type="text" id="dancer_name" name="dancer_name" required>
+            <button type="submit" name="add_dancer">댄서 추가</button>
+        </form>
+        <form method="post">
+            <button type="submit" name="export">CSV로 저장하기</button>
+        </form>
+        <ul>
+            {% for dancer in dancers %}
+                <li>{{ dancer.name }}</li>
+            {% endfor %}
+        </ul>
+        <footer>
+            <p>© 2024 Kim Jin Hyuk. All rights reserved.</p>
+        </footer>
     </div>
 </body>
 </html>
+
