@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
-PASSWORD = 'admin'
+PASSWORD = 'admin'  # 기본 비밀번호
 dancers = []
 
 class Dancer:
